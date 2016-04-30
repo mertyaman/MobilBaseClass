@@ -24,6 +24,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 	@author mert.yaman
  * 	Bu class projenin abstract classidir ve cogu class tarafindak icerisindeki methodlarin kullanilabilmesi icin extend edilmistir.
  * 	Findwebelement, click, swipe, getStringToInt gibi birden fazla kez kullanilacak olan methodlar,
  * 	reusable olarak bu classta tanimlanmistir. Ayrica bazi webservice'ler bu classta cagrilip store edilmistir.
@@ -215,12 +216,10 @@ public abstract class BaseClass {
 
 		try {
 	        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(htmlText)));
-		} catch (NoSuchElementException exception) {
+		} 
+		catch (NoSuchElementException exception) {
 			return null;
 		}
-//		WebElement el = driver.findElement(By.xpath(htmlText));
-////        return el;
-//        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(htmlText)));
 	}
 	
 	protected boolean findWebElementWithoutWait(String xpath){
@@ -247,28 +246,12 @@ public abstract class BaseClass {
 	protected void clickWebElement(String htmlText) {
 		refreshPageSource();
 		WebElement el=findWebElement(htmlText);
-//		HighlightElementClick(el);
 		wait.until(ExpectedConditions.elementToBeClickable(el));
 		el.click();
 	}
 
-	protected void clickWebElement(WebElement element) {//duzenlenecek kod ali
-	//	js.executeScript("arguments[0].scrollIntoView(true)", element); //odaklanma
-		//js.executeScript("window.scrollTo(0,arguments[0]);",element.getLocation().y);
-		try {
-		//	HighlightElementClick(element);
-			element.click();
-		} catch (Exception e) {
-			try {
-				js.executeScript("arguments[0].scrollIntoView(true)", element);
-				js.executeScript("arguments[0].click()", element);
-				
-			} catch (Exception e2) {
-				
-			}
-			
-		}
-		
+	protected void clickWebElement(WebElement element) {
+		element.click();
 	}
 	protected String getWebElementText(WebElement element) {
 
@@ -504,14 +487,6 @@ public abstract class BaseClass {
 
 	protected boolean untilElementTextIs(WebElement element, String text) {
 		return wait.until(ExpectedConditions.textToBePresentInElement(element, text));
-	}
-
-	protected boolean untilDriverTitleIs(String title) {
-		return wait.until(ExpectedConditions.titleIs(title));
-	}
-
-	protected boolean untilDriverTitleContains(String findTitle) {
-		return wait.until(ExpectedConditions.titleContains(findTitle));
 	}
 
 	protected List<WebElement> untilElementsArePresence(String htmlText) {
